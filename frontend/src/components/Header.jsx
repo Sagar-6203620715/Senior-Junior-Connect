@@ -1,42 +1,167 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes, FaUser, FaCrown } from 'react-icons/fa';
 
 function Header() {
   const [navOpen, setNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close mobile nav when route changes
+  useEffect(() => {
+    setNavOpen(false);
+  }, [location]);
+
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <header className="bg-gradient-to-r from-blue-800 to-blue-500 text-white py-4 shadow-md sticky top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <Link to="/" className="flex items-center gap-2 text-2xl font-extrabold tracking-tight focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded">
-          <span className="inline-block bg-yellow-400 rounded-full w-8 h-8 flex items-center justify-center text-blue-900 font-bold">E</span>
-          EngiConnect
-        </Link>
-        {/* Hamburger for mobile */}
-        <button
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
-          aria-label="Toggle navigation menu"
-          onClick={() => setNavOpen(v => !v)}
-        >
-          <span className={`block w-6 h-0.5 bg-white mb-1 transition-transform ${navOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-          <span className={`block w-6 h-0.5 bg-white mb-1 ${navOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`block w-6 h-0.5 bg-white transition-transform ${navOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-        </button>
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Link to="/premium" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-semibold hover:bg-yellow-300 transition shadow focus:outline-none focus:ring-2 focus:ring-yellow-400">Premium</Link>
-          <Link to="/colleges" className="hover:underline font-semibold focus:outline-none focus:ring-2 focus:ring-white rounded">Colleges</Link>
-          <Link to="/about" className="hover:underline font-semibold focus:outline-none focus:ring-2 focus:ring-white rounded">About</Link>
-        </nav>
-        {/* Mobile Nav */}
-        {navOpen && (
-          <nav className="absolute top-full left-0 w-full bg-blue-800 flex flex-col items-center gap-4 py-4 shadow-lg md:hidden animate-fade-in z-40">
-            <Link to="/premium" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-semibold hover:bg-yellow-300 transition shadow w-11/12 text-center focus:outline-none focus:ring-2 focus:ring-yellow-400" onClick={() => setNavOpen(false)}>Premium</Link>
-            <Link to="/colleges" className="hover:underline font-semibold w-11/12 text-center focus:outline-none focus:ring-2 focus:ring-white rounded" onClick={() => setNavOpen(false)}>Colleges</Link>
-            <Link to="/about" className="hover:underline font-semibold w-11/12 text-center focus:outline-none focus:ring-2 focus:ring-white rounded" onClick={() => setNavOpen(false)}>About</Link>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
+        : 'bg-gradient-to-r from-blue-800 to-blue-600'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link 
+            to="/" 
+            className="flex items-center gap-3 text-2xl font-bold tracking-tight focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg p-1 transition-all duration-200"
+          >
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 ${
+              scrolled ? 'bg-blue-600 text-white' : 'bg-yellow-400 text-blue-900'
+            }`}>
+              <span className="font-bold text-lg">E</span>
+            </div>
+            <span className={scrolled ? 'text-gray-900' : 'text-white'}>
+              EngiConnect
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            <Link 
+              to="/colleges" 
+              className={`font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg px-3 py-2 ${
+                isActive('/colleges') 
+                  ? (scrolled ? 'text-blue-600 bg-blue-50' : 'text-yellow-400 bg-white/10') 
+                  : (scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-yellow-400')
+              }`}
+            >
+              Colleges
+            </Link>
+            <Link 
+              to="/about" 
+              className={`font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg px-3 py-2 ${
+                isActive('/about') 
+                  ? (scrolled ? 'text-blue-600 bg-blue-50' : 'text-yellow-400 bg-white/10') 
+                  : (scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-yellow-400')
+              }`}
+            >
+              About
+            </Link>
+            <Link 
+              to="/premium" 
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${
+                scrolled 
+                  ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-yellow-600' 
+                  : 'bg-yellow-400 text-blue-900 hover:bg-yellow-300'
+              } shadow-lg hover:shadow-xl`}
+            >
+              <FaCrown className="text-sm" />
+              Premium
+            </Link>
           </nav>
-        )}
-        <div className="flex items-center gap-2 ml-2">
-          <span className="inline-block w-8 h-8 rounded-full bg-white text-blue-700 flex items-center justify-center font-bold text-lg shadow"> <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'><path strokeLinecap='round' strokeLinejoin='round' d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z' /><path strokeLinecap='round' strokeLinejoin='round' d='M4.5 20.25a8.25 8.25 0 1115 0v.75a.75.75 0 01-.75.75h-13.5a.75.75 0 01-.75-.75v-.75z' /></svg></span>
-          <Link to="/login" className="bg-white text-blue-700 px-3 py-1 rounded font-semibold hover:bg-blue-100 transition shadow focus:outline-none focus:ring-2 focus:ring-blue-400">Sign Up / Login</Link>
+
+          {/* User Section */}
+          <div className="hidden md:flex items-center gap-4">
+            <div className={`flex items-center gap-2 p-2 rounded-lg transition-all duration-200 ${
+              scrolled ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white/10 hover:bg-white/20'
+            }`}>
+              <FaUser className={`text-lg ${scrolled ? 'text-gray-600' : 'text-white'}`} />
+              <span className={`font-medium ${scrolled ? 'text-gray-700' : 'text-white'}`}>
+                Welcome, User
+              </span>
+            </div>
+            <Link 
+              to="/login" 
+              className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                scrolled 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl' 
+                  : 'bg-white text-blue-700 hover:bg-gray-100 shadow-lg hover:shadow-xl'
+              }`}
+            >
+              Sign In
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg transition-all duration-200"
+            aria-label="Toggle navigation menu"
+            onClick={() => setNavOpen(v => !v)}
+          >
+            {navOpen ? (
+              <FaTimes className={`text-2xl ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+            ) : (
+              <FaBars className={`text-2xl ${scrolled ? 'text-gray-700' : 'text-white'}`} />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          navOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <nav className="py-4 space-y-2 border-t border-gray-200">
+            <Link 
+              to="/colleges" 
+              className={`block px-4 py-3 rounded-lg font-semibold transition-all duration-200 ${
+                isActive('/colleges') 
+                  ? 'bg-blue-100 text-blue-700' 
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Colleges
+            </Link>
+            <Link 
+              to="/about" 
+              className={`block px-4 py-3 rounded-lg font-semibold transition-all duration-200 ${
+                isActive('/about') 
+                  ? 'bg-blue-100 text-blue-700' 
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              About
+            </Link>
+            <Link 
+              to="/premium" 
+              className="flex items-center gap-2 px-4 py-3 rounded-lg font-semibold bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-yellow-600 transition-all duration-200"
+            >
+              <FaCrown className="text-sm" />
+              Premium
+            </Link>
+            <div className="pt-4 border-t border-gray-200">
+              <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gray-100">
+                <FaUser className="text-gray-600" />
+                <span className="font-medium text-gray-700">Welcome, User</span>
+              </div>
+              <Link 
+                to="/login" 
+                className="block mt-2 px-4 py-3 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 text-center"
+              >
+                Sign In
+              </Link>
+            </div>
+          </nav>
         </div>
       </div>
     </header>

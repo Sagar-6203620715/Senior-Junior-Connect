@@ -1,25 +1,227 @@
 import { Link } from 'react-router-dom';
+import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-gray-100 text-gray-600 py-6 mt-12 text-center border-t">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="mb-2 md:mb-0 text-sm">&copy; {new Date().getFullYear()} EngiConnect. All rights reserved.</div>
-        <div className="flex gap-4 justify-center">
-          <Link to="/about" className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded px-1">About</Link>
-          <Link to="/colleges" className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded px-1">Colleges</Link>
-          <Link to="/premium" className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded px-1">Premium</Link>
+    <footer className="bg-gray-900 text-gray-300">
+      {/* Main Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
+                <span className="font-bold text-white text-lg">E</span>
+              </div>
+              <span className="text-2xl font-bold text-white">EngiConnect</span>
+            </div>
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              Connecting senior and junior students across India's top engineering colleges. 
+              Find guidance, mentorship, and build meaningful connections.
+            </p>
+            <div className="flex space-x-4">
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Twitter"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all duration-200 group"
+              >
+                <FaTwitter className="text-gray-400 group-hover:text-white transition-colors" />
+              </a>
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Facebook"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-all duration-200 group"
+              >
+                <FaFacebook className="text-gray-400 group-hover:text-white transition-colors" />
+              </a>
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Instagram"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-pink-600 transition-all duration-200 group"
+              >
+                <FaInstagram className="text-gray-400 group-hover:text-white transition-colors" />
+              </a>
+              <a 
+                href="https://linkedin.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="LinkedIn"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-800 transition-all duration-200 group"
+              >
+                <FaLinkedin className="text-gray-400 group-hover:text-white transition-colors" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-6">Quick Links</h3>
+            <ul className="space-y-3">
+              <li>
+                <Link 
+                  to="/colleges" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Browse Colleges
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/about" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/premium" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Premium Features
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/contact" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/help" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Help & Support
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-6">Resources</h3>
+            <ul className="space-y-3">
+              <li>
+                <Link 
+                  to="/blog" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Blog & Articles
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/guides" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Study Guides
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/events" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Events & Webinars
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/careers" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  Career Guidance
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/faq" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block"
+                >
+                  FAQ
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-6">Contact Us</h3>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <FaMapMarkerAlt className="text-blue-400 mt-1 flex-shrink-0" />
+                <p className="text-gray-400">
+                  123 Tech Street, Bangalore<br />
+                  Karnataka, India 560001
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <FaPhone className="text-blue-400 flex-shrink-0" />
+                <a 
+                  href="tel:+91-9876543210" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  +91 98765 43210
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <FaEnvelope className="text-blue-400 flex-shrink-0" />
+                <a 
+                  href="mailto:info@engiconnect.com" 
+                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  info@engiconnect.com
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex gap-3 justify-center">
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.47.69a4.3 4.3 0 001.88-2.37 8.59 8.59 0 01-2.72 1.04 4.28 4.28 0 00-7.29 3.9A12.13 12.13 0 013 4.89a4.28 4.28 0 001.32 5.71c-.7-.02-1.36-.21-1.94-.53v.05a4.28 4.28 0 003.43 4.19c-.33.09-.68.14-1.04.14-.25 0-.5-.02-.74-.07a4.29 4.29 0 004 2.98A8.6 8.6 0 012 19.54a12.13 12.13 0 006.56 1.92c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.37-.01-.56A8.7 8.7 0 0024 4.59a8.48 8.48 0 01-2.54.7z" /></svg>
-          </a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0" /></svg>
-          </a>
-          <a href="mailto:info@engiconnect.com" aria-label="Email" className="hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 13.065L.8 4.8A1.2 1.2 0 012.4 3.6h19.2a1.2 1.2 0 011.6 1.2l-11.2 8.265zm11.2-7.065v13.2a1.2 1.2 0 01-1.2 1.2H2.4a1.2 1.2 0 01-1.2-1.2V6l10.8 7.965a1.2 1.2 0 001.44 0L23.2 6z" /></svg>
-          </a>
+      </div>
+
+      {/* Bottom Footer */}
+      <div className="border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-sm text-gray-400">
+              &copy; {currentYear} EngiConnect. All rights reserved.
+            </div>
+            <div className="flex items-center gap-6 text-sm">
+              <Link 
+                to="/privacy" 
+                className="text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <Link 
+                to="/terms" 
+                className="text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                Terms of Service
+              </Link>
+              <Link 
+                to="/cookies" 
+                className="text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                Cookie Policy
+              </Link>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <span>Made with</span>
+              <FaHeart className="text-red-500 animate-pulse" />
+              <span>in India</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
