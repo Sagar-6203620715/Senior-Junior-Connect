@@ -222,24 +222,24 @@ function CollegeList() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-4 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center mb-2">
-            <FaGraduationCap className="text-2xl text-blue-600 mr-2" />
-            <h1 className="text-2xl font-bold text-gray-900">Engineering Colleges</h1>
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-4">
+            <FaGraduationCap className="text-3xl text-indigo-600 mr-3" />
+            <h1 className="text-3xl font-bold text-slate-800">Engineering Colleges</h1>
           </div>
-          <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base text-slate-600 max-w-2xl mx-auto">
             Discover top engineering colleges with detailed information about branches, cutoffs, and placement packages
           </p>
         </div>
 
         {/* Search Section */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-8">
           <div className="relative w-full max-w-md">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaSearch className="h-4 w-4 text-gray-400" />
+              <FaSearch className="h-5 w-5 text-slate-400" />
             </div>
             <input
               type="text"
@@ -247,102 +247,106 @@ function CollegeList() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               aria-label="Search for a college"
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all duration-200"
+              className="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-slate-900 placeholder-slate-500 transition-all duration-200"
             />
           </div>
         </div>
 
         {/* Results Count */}
-        <div className="mb-4 text-center">
-          <p className="text-sm text-gray-600">
-            Showing <span className="font-semibold text-blue-600">{filteredColleges.length}</span> colleges
+        <div className="mb-6 text-center">
+          <p className="text-sm text-slate-600">
+            Showing <span className="font-semibold text-indigo-600">{filteredColleges.length}</span> colleges
           </p>
         </div>
 
-        {/* Colleges Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+        {/* Colleges Container */}
+        <div className="flex flex-wrap -mx-3">
           {filteredColleges.length === 0 ? (
-            <div className="col-span-full text-center py-8">
+            <div className="w-full text-center py-12">
               <div className="max-w-md mx-auto">
-                <FaSearch className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                <h3 className="text-base font-medium text-gray-900 mb-1">No colleges found</h3>
-                <p className="text-sm text-gray-500">Try adjusting your search terms to find what you're looking for.</p>
+                <FaSearch className="mx-auto h-12 w-12 text-slate-400 mb-4" />
+                <h3 className="text-lg font-medium text-slate-900 mb-2">No colleges found</h3>
+                <p className="text-slate-500">Try adjusting your search terms to find what you're looking for.</p>
               </div>
             </div>
           ) : (
             filteredColleges.map(college => (
               <div
                 key={college.id}
-                className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-blue-200"
-                tabIndex={0}
-                aria-label={`College card for ${college.name}`}
+                className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6"
               >
-                {/* College Image */}
-                <div className="relative h-20 overflow-hidden">
-                  <img
-                    src={imgError[college.id] ? fallbackImage : college.image}
-                    alt={college.name}
-                    onError={() => setImgError(prev => ({ ...prev, [college.id]: true }))}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                </div>
-
-                {/* College Content */}
-                <div className="p-2">
-                  {/* College Name */}
-                  <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors duration-200 line-clamp-1">
-                    {college.name}
-                  </h3>
-
-                  {/* Average Package */}
-                  <div className="flex items-center mb-2 p-1 bg-green-50 rounded border border-green-100">
-                    <FaRupeeSign className="text-green-600 text-xs mr-1" />
-                    <div>
-                      <p className="text-xs text-green-700 font-medium">Avg</p>
-                      <p className="text-xs font-bold text-green-800">{college.avgPackage}</p>
+                <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-indigo-300 transform hover:-translate-y-1 h-full">
+                  {/* College Image */}
+                  <div className="relative h-40 overflow-hidden">
+                    <img
+                      src={imgError[college.id] ? fallbackImage : college.image}
+                      alt={college.name}
+                      onError={() => setImgError(prev => ({ ...prev, [college.id]: true }))}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent"></div>
+                    {/* College Name Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+                      <h3 className="text-base font-bold text-white group-hover:text-indigo-200 transition-colors duration-200">
+                        {college.name}
+                      </h3>
                     </div>
                   </div>
 
-                  {/* Branches */}
-                  <div className="mb-2">
-                    <h4 className="text-xs font-semibold text-gray-700 mb-1 flex items-center">
-                      <FaChalkboardTeacher className="mr-1 text-blue-500 text-xs" />
-                      Branches
-                    </h4>
-                    <div className="space-y-0.5">
-                      {college.branches.slice(0, 1).map(branch => (
-                        <div key={branch.name} className="flex justify-between items-center p-1 bg-blue-50 rounded border border-blue-100">
-                          <span className="font-medium text-blue-900 text-xs">{branch.name}</span>
-                          <span className="text-xs text-blue-700 font-semibold">
-                            {branch.opening}-{branch.closing}
-                          </span>
-                        </div>
-                      ))}
-                      {college.branches.length > 1 && (
-                        <div className="text-xs text-gray-500 text-center py-0.5">
-                          +{college.branches.length - 1} more
-                        </div>
-                      )}
+                  {/* College Content */}
+                  <div className="p-4">
+                    {/* Average Package */}
+                    <div className="flex items-center mb-3 p-2 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg border border-emerald-100">
+                      <FaRupeeSign className="text-emerald-600 text-sm mr-2" />
+                      <div>
+                        <p className="text-xs text-emerald-700 font-medium">Avg Package</p>
+                        <p className="text-sm font-bold text-emerald-800">{college.avgPackage}</p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex gap-1">
-                    <button
-                      className="flex-1 bg-blue-600 text-white py-1 px-2 rounded text-xs hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-sm hover:shadow-md"
-                      tabIndex={0}
-                      aria-label={`Know more about ${college.name}`}
-                    >
-                      More
-                    </button>
-                    <button
-                      className="flex-1 bg-green-600 text-white py-1 px-2 rounded text-xs hover:bg-green-700 focus:outline-none focus:ring-1 focus:ring-green-500 transition-all duration-200 font-semibold shadow-sm hover:shadow-md flex items-center justify-center"
-                      tabIndex={0}
-                      aria-label={`Chat about ${college.name}`}
-                    >
-                      <FaComments className="text-xs" />
-                    </button>
+                    {/* Branches */}
+                    <div className="mb-4">
+                      <h4 className="text-xs font-semibold text-slate-700 mb-2 flex items-center">
+                        <FaChalkboardTeacher className="mr-1.5 text-indigo-500 text-xs" />
+                        Branches
+                      </h4>
+                      <div className="space-y-1.5">
+                        {college.branches.slice(0, 2).map(branch => (
+                          <div key={branch.name} className="flex justify-between items-center p-2 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-md border border-indigo-100 hover:border-indigo-200 transition-colors duration-200">
+                            <span className="font-medium text-indigo-900 text-xs">{branch.name}</span>
+                            <span className="text-xs text-indigo-700 font-semibold bg-indigo-100 px-2 py-0.5 rounded-full">
+                              {branch.opening}-{branch.closing}
+                            </span>
+                          </div>
+                        ))}
+                        {college.branches.length > 2 && (
+                          <div className="text-center py-1">
+                            <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                              +{college.branches.length - 2} more
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      <button
+                        className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-3 rounded-lg hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 transition-all duration-200 font-semibold text-xs shadow-md hover:shadow-lg transform hover:scale-105"
+                        tabIndex={0}
+                        aria-label={`Know more about ${college.name}`}
+                      >
+                        Know More
+                      </button>
+                      <button
+                        className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-3 rounded-lg hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1 transition-all duration-200 font-semibold text-xs shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center gap-1"
+                        tabIndex={0}
+                        aria-label={`Chat about ${college.name}`}
+                      >
+                        <FaComments className="text-xs" />
+                        Chat
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
