@@ -15,7 +15,7 @@ const fallbackImage =
 const colleges = [
   {
     id: 2,
-    name: 'IIT Delhi',
+    name: 'IIT Bombay',
     image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹21 LPA',
     location: 'New Delhi',
