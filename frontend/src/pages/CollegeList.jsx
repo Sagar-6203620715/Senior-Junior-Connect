@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import {
   FaRupeeSign,
   FaChalkboardTeacher,
@@ -14,11 +15,11 @@ const fallbackImage =
 
 const colleges = [
   {
-    id: 2,
+    id: 1,
     name: 'IIT Bombay',
     image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹21 LPA',
-    location: 'New Delhi',
+    location: 'Mumbai, Maharashtra',
     rating: 4.8,
     branches: [
       { name: 'CSE', opening: 3, closing: 100 },
@@ -27,7 +28,7 @@ const colleges = [
     ],
   },
   {
-    id: 3,
+    id: 2,
     name: 'BITS Pilani',
     image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹18 LPA',
@@ -40,11 +41,11 @@ const colleges = [
     ],
   },
   {
-    id: 4,
+    id: 3,
     name: 'IIT Kanpur',
     image: 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹20 LPA',
-    location: 'Kanpur, UP',
+    location: 'Kanpur, Uttar Pradesh',
     rating: 4.8,
     branches: [
       { name: 'CSE', opening: 10, closing: 80 },
@@ -53,11 +54,11 @@ const colleges = [
     ],
   },
   {
-    id: 5,
+    id: 4,
     name: 'IIT Kharagpur',
     image: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3fd8?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹19 LPA',
-    location: 'Kharagpur, WB',
+    location: 'Kharagpur, West Bengal',
     rating: 4.7,
     branches: [
       { name: 'CSE', opening: 15, closing: 90 },
@@ -66,11 +67,11 @@ const colleges = [
     ],
   },
   {
-    id: 6,
+    id: 5,
     name: 'IIT Madras',
     image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹20 LPA',
-    location: 'Chennai, TN',
+    location: 'Chennai, Tamil Nadu',
     rating: 4.8,
     branches: [
       { name: 'CSE', opening: 5, closing: 70 },
@@ -79,11 +80,11 @@ const colleges = [
     ],
   },
   {
-    id: 7,
+    id: 6,
     name: 'IIT Roorkee',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹17 LPA',
-    location: 'Roorkee, UK',
+    location: 'Roorkee, Uttarakhand',
     rating: 4.6,
     branches: [
       { name: 'CSE', opening: 30, closing: 120 },
@@ -92,7 +93,7 @@ const colleges = [
     ],
   },
   {
-    id: 8,
+    id: 7,
     name: 'IIT Guwahati',
     image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹16 LPA',
@@ -105,11 +106,11 @@ const colleges = [
     ],
   },
   {
-    id: 9,
+    id: 8,
     name: 'NIT Trichy',
     image: 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹14 LPA',
-    location: 'Tiruchirappalli, TN',
+    location: 'Tiruchirappalli, Tamil Nadu',
     rating: 4.4,
     branches: [
       { name: 'CSE', opening: 100, closing: 400 },
@@ -118,11 +119,11 @@ const colleges = [
     ],
   },
   {
-    id: 10,
+    id: 9,
     name: 'NIT Surathkal',
     image: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3fd8?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹13 LPA',
-    location: 'Mangalore, KA',
+    location: 'Mangalore, Karnataka',
     rating: 4.3,
     branches: [
       { name: 'CSE', opening: 120, closing: 450 },
@@ -131,11 +132,11 @@ const colleges = [
     ],
   },
   {
-    id: 11,
+    id: 10,
     name: 'NIT Warangal',
     image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹13 LPA',
-    location: 'Warangal, TG',
+    location: 'Warangal, Telangana',
     rating: 4.3,
     branches: [
       { name: 'CSE', opening: 130, closing: 470 },
@@ -144,11 +145,11 @@ const colleges = [
     ],
   },
   {
-    id: 12,
+    id: 11,
     name: 'NIT Calicut',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹12 LPA',
-    location: 'Kozhikode, KL',
+    location: 'Kozhikode, Kerala',
     rating: 4.2,
     branches: [
       { name: 'CSE', opening: 140, closing: 490 },
@@ -157,7 +158,7 @@ const colleges = [
     ],
   },
   {
-    id: 13,
+    id: 12,
     name: 'NIT Rourkela',
     image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹12 LPA',
@@ -170,11 +171,11 @@ const colleges = [
     ],
   },
   {
-    id: 14,
+    id: 13,
     name: 'IIIT Hyderabad',
     image: 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹24 LPA',
-    location: 'Hyderabad, TG',
+    location: 'Hyderabad, Telangana',
     rating: 4.9,
     branches: [
       { name: 'CSE', opening: 20, closing: 150 },
@@ -182,7 +183,7 @@ const colleges = [
     ],
   },
   {
-    id: 15,
+    id: 14,
     name: 'IIIT Delhi',
     image: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3fd8?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹18 LPA',
@@ -194,11 +195,11 @@ const colleges = [
     ],
   },
   {
-    id: 16,
+    id: 15,
     name: 'VIT Vellore',
     image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹10 LPA',
-    location: 'Vellore, TN',
+    location: 'Vellore, Tamil Nadu',
     rating: 4.1,
     branches: [
       { name: 'CSE', opening: 200, closing: 800 },
@@ -207,11 +208,11 @@ const colleges = [
     ],
   },
   {
-    id: 17,
+    id: 16,
     name: 'SRM University',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹8 LPA',
-    location: 'Chennai, TN',
+    location: 'Chennai, Tamil Nadu',
     rating: 4.0,
     branches: [
       { name: 'CSE', opening: 300, closing: 1200 },
@@ -220,11 +221,11 @@ const colleges = [
     ],
   },
   {
-    id: 18,
+    id: 17,
     name: 'Manipal Institute of Technology',
     image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹7 LPA',
-    location: 'Manipal, KA',
+    location: 'Manipal, Karnataka',
     rating: 4.0,
     branches: [
       { name: 'CSE', opening: 400, closing: 1500 },
@@ -233,7 +234,7 @@ const colleges = [
     ],
   },
   {
-    id: 19,
+    id: 18,
     name: 'Thapar University',
     image: 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹6 LPA',
@@ -246,7 +247,7 @@ const colleges = [
     ],
   },
   {
-    id: 20,
+    id: 19,
     name: 'BITS Goa',
     image: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3fd8?auto=format&fit=crop&w=400&q=80',
     avgPackage: '₹15 LPA',
@@ -264,9 +265,15 @@ function CollegeList() {
   const [search, setSearch] = useState('');
   const [imgError, setImgError] = useState({});
 
-  const filteredColleges = colleges.filter((college) =>
-    college.name.toLowerCase().includes(search.toLowerCase())
+  const filteredColleges = useMemo(() => 
+    colleges.filter((college) =>
+      college.name.toLowerCase().includes(search.toLowerCase().trim())
+    ), [search]
   );
+
+  const handleImageError = useCallback((collegeId) => {
+    setImgError((prev) => ({ ...prev, [collegeId]: true }));
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-10 px-4 sm:px-6 lg:px-12">
@@ -294,6 +301,7 @@ function CollegeList() {
               placeholder="Search by college name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search colleges"
               className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-2xl shadow focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white text-slate-800 placeholder-slate-500"
             />
           </div>
@@ -325,9 +333,7 @@ function CollegeList() {
                   <img
                     src={imgError[college.id] ? fallbackImage : college.image}
                     alt={college.name}
-                    onError={() =>
-                      setImgError((prev) => ({ ...prev, [college.id]: true }))
-                    }
+                    onError={() => handleImageError(college.id)}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   {/* Gradient Overlay */}
@@ -396,13 +402,23 @@ function CollegeList() {
 
                   {/* Action Buttons */}
                   <div className="flex gap-3 pt-2">
-                    <button className="flex-1 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-                      Know More
-                    </button>
-                    <button className="flex-1 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2">
-                      <FaComments className="text-sm" />
-                      Chat
-                    </button>
+                    <Link to={`/college/${college.id}`} className="flex-1">
+                      <button 
+                        className="w-full py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                        aria-label={`Learn more about ${college.name}`}
+                      >
+                        Know More
+                      </button>
+                    </Link>
+                    <Link to={`/chat/${college.id}`} className="flex-1">
+                      <button 
+                        className="w-full py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                        aria-label={`Chat with senior students from ${college.name}`}
+                      >
+                        <FaComments className="text-sm" />
+                        Chat
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
