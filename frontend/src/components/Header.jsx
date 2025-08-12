@@ -1,158 +1,182 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaTimes, FaUser, FaCrown, FaBell, FaSearch } from 'react-icons/fa';
+import { FaBars, FaTimes, FaSearch, FaBell, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { useAuth } from '../contexts/AuthContext';
 
-function Header() {
+const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
-  // Handle scroll effect with enhanced performance
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile nav when route changes
+  // Close mobile menu when route changes
   useEffect(() => {
     setNavOpen(false);
-    setSearchOpen(false);
-  }, [location]);
+    setUserMenuOpen(false);
+  }, [location.pathname]);
 
-  const isActive = (path) => location.pathname === path;
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+  };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'glass shadow-2xl' 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Enhanced Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center gap-4 group focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-xl p-2 transition-all duration-300"
-          >
-            <div className={`relative w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${
-              scrolled 
-                ? 'bg-gradient-to-br from-primary-600 to-primary-700 shadow-lg' 
-                : 'bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/20'
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <span className="text-white font-bold text-lg">E</span>
+            </div>
+            <span className={`text-xl font-bold transition-colors duration-300 ${
+              scrolled ? 'text-gray-900' : 'text-white'
             }`}>
-              <span className={`font-bold text-xl transition-colors duration-300 ${
-                scrolled ? 'text-white' : 'text-white'
-              }`}>E</span>
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary-400/20 to-primary-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            <div className="flex flex-col">
-              <span className={`text-2xl font-bold tracking-tight transition-colors duration-300 ${
-                scrolled ? 'text-gray-900' : 'text-white'
-              }`}>
-                EngiConnect
-              </span>
-              <span className={`text-xs font-medium transition-colors duration-300 ${
-                scrolled ? 'text-gray-600' : 'text-white/80'
-              }`}>
-                Connect • Learn • Grow
-              </span>
-            </div>
+              EngiConnect
+            </span>
           </Link>
 
-          {/* Enhanced Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className={`font-medium transition-colors duration-200 hover:text-primary-600 ${
+                scrolled ? 'text-gray-700' : 'text-white'
+              } ${location.pathname === '/' ? 'text-primary-600' : ''}`}
+            >
+              Home
+            </Link>
             <Link 
               to="/colleges" 
-              className={`nav-link relative px-4 py-2 rounded-xl transition-all duration-300 ${
-                isActive('/colleges') 
-                  ? (scrolled ? 'text-primary-600 bg-primary-50' : 'text-white bg-white/10') 
-                  : (scrolled ? 'text-gray-700 hover:text-primary-600' : 'text-white hover:text-primary-200')
-              }`}
+              className={`font-medium transition-colors duration-200 hover:text-primary-600 ${
+                scrolled ? 'text-gray-700' : 'text-white'
+              } ${location.pathname === '/colleges' ? 'text-primary-600' : ''}`}
             >
-              <span className="relative z-10">Colleges</span>
-              {isActive('/colleges') && (
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-100 to-primary-50 rounded-xl opacity-80"></div>
-              )}
+              Colleges
             </Link>
-            
             <Link 
               to="/about" 
-              className={`nav-link relative px-4 py-2 rounded-xl transition-all duration-300 ${
-                isActive('/about') 
-                  ? (scrolled ? 'text-primary-600 bg-primary-50' : 'text-white bg-white/10') 
-                  : (scrolled ? 'text-gray-700 hover:text-primary-600' : 'text-white hover:text-primary-200')
-              }`}
+              className={`font-medium transition-colors duration-200 hover:text-primary-600 ${
+                scrolled ? 'text-gray-700' : 'text-white'
+              } ${location.pathname === '/about' ? 'text-primary-600' : ''}`}
             >
-              <span className="relative z-10">About</span>
-              {isActive('/about') && (
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-100 to-primary-50 rounded-xl opacity-80"></div>
-              )}
+              About
             </Link>
-            
             <Link 
-              to="/premium" 
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-500 bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg hover:shadow-xl"
+              to="/contact" 
+              className={`font-medium transition-colors duration-200 hover:text-primary-600 ${
+                scrolled ? 'text-gray-700' : 'text-white'
+              } ${location.pathname === '/contact' ? 'text-primary-600' : ''}`}
             >
-              <FaCrown className="text-sm" />
-              Premium
+              Contact
             </Link>
           </nav>
 
-          {/* Enhanced User Section */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* Right Side Actions */}
+          <div className="flex items-center space-x-4">
             {/* Search Button */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className={`p-3 rounded-xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                scrolled 
-                  ? 'bg-gray-100 hover:bg-gray-200 text-gray-600' 
-                  : 'bg-white/10 hover:bg-white/20 text-white'
+              className={`p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                scrolled ? 'text-gray-600' : 'text-white'
               }`}
+              aria-label="Toggle search"
             >
-              <FaSearch className="text-lg" />
+              <FaSearch className="w-5 h-5" />
             </button>
 
-            {/* Notifications */}
-            <button className={`relative p-3 rounded-xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-              scrolled 
-                ? 'bg-gray-100 hover:bg-gray-200 text-gray-600' 
-                : 'bg-white/10 hover:bg-white/20 text-white'
-            }`}>
-              <FaBell className="text-lg" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-            </button>
-
-            {/* User Profile */}
-            <div className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-105 cursor-pointer ${
-              scrolled 
-                ? 'bg-gray-100 hover:bg-gray-200' 
-                : 'bg-white/10 hover:bg-white/20'
-            }`}>
-              <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                <FaUser className="text-white text-sm" />
+            {/* Notification Bell */}
+            <button
+              className={`p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                scrolled ? 'text-gray-600' : 'text-white'
+              }`}
+              aria-label="Notifications"
+            >
+              <div className="relative">
+                <FaBell className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
               </div>
-              <span className={`font-medium transition-colors duration-300 ${
-                scrolled ? 'text-gray-700' : 'text-white'
-              }`}>
-                Welcome, User
-              </span>
-            </div>
+            </button>
 
-            {/* Sign In Button */}
-            <Link 
-              to="/login" 
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                scrolled 
-                  ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-xl' 
-                  : 'bg-white text-primary-700 hover:bg-gray-100 shadow-lg hover:shadow-xl'
-              }`}
-            >
-              Sign In
-            </Link>
+            {/* Authentication Section */}
+            {isAuthenticated ? (
+              /* User Menu */
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-2 p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  aria-label="User menu"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <FaUser className="text-white text-sm" />
+                  </div>
+                  <span className={`font-medium transition-colors duration-300 ${
+                    scrolled ? 'text-gray-700' : 'text-white'
+                  }`}>
+                    {user?.firstName || 'User'}
+                  </span>
+                </button>
+
+                {/* User Dropdown Menu */}
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">{user?.fullName || 'User'}</p>
+                      <p className="text-sm text-gray-500">{user?.email}</p>
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      <FaUser className="w-4 h-4 mr-3" />
+                      Profile
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      <FaCog className="w-4 h-4 mr-3" />
+                      Settings
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      <FaSignOutAlt className="w-4 h-4 mr-3" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Sign In Button */
+              <Link 
+                to="/login" 
+                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                  scrolled 
+                    ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-xl' 
+                    : 'bg-white text-primary-700 hover:bg-gray-100 shadow-lg hover:shadow-xl'
+                }`}
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* Enhanced Mobile Menu Button */}
@@ -173,15 +197,25 @@ function Header() {
           </button>
         </div>
 
-        {/* Enhanced Mobile Navigation */}
-        <div className={`lg:hidden transition-all duration-500 ease-in-out overflow-hidden ${
+        {/* Mobile Navigation */}
+        <div className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
           navOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
-          <nav className="py-6 space-y-3 border-t border-white/20">
+          <nav className="py-4 space-y-2">
+            <Link 
+              to="/" 
+              className={`block px-6 py-3 rounded-xl transition-colors duration-200 ${
+                location.pathname === '/' 
+                  ? 'bg-primary-100 text-primary-700' 
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Home
+            </Link>
             <Link 
               to="/colleges" 
-              className={`block px-6 py-4 rounded-xl font-semibold transition-all duration-300 ${
-                isActive('/colleges') 
+              className={`block px-6 py-3 rounded-xl transition-colors duration-200 ${
+                location.pathname === '/colleges' 
                   ? 'bg-primary-100 text-primary-700' 
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
@@ -190,8 +224,8 @@ function Header() {
             </Link>
             <Link 
               to="/about" 
-              className={`block px-6 py-4 rounded-xl font-semibold transition-all duration-300 ${
-                isActive('/about') 
+              className={`block px-6 py-3 rounded-xl transition-colors duration-200 ${
+                location.pathname === '/about' 
                   ? 'bg-primary-100 text-primary-700' 
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
@@ -199,27 +233,33 @@ function Header() {
               About
             </Link>
             <Link 
-              to="/premium" 
-              className="flex items-center gap-2 px-6 py-4 rounded-xl font-semibold bg-gradient-to-r from-accent-500 to-accent-600 text-white hover:from-accent-600 hover:to-accent-700 transition-all duration-300"
+              to="/contact" 
+              className={`block px-6 py-3 rounded-xl transition-colors duration-200 ${
+                location.pathname === '/contact' 
+                  ? 'bg-primary-100 text-primary-700' 
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
             >
-              <FaCrown className="text-sm" />
-              Premium
+              Contact
             </Link>
             
-            <div className="pt-4 border-t border-gray-200">
-              <div className="flex items-center gap-3 px-6 py-4 rounded-xl bg-gray-100">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                  <FaUser className="text-white text-sm" />
-                </div>
-                <span className="font-medium text-gray-700">Welcome, User</span>
+            {/* Mobile Authentication */}
+            {!isAuthenticated && (
+              <div className="pt-4 border-t border-gray-200">
+                <Link 
+                  to="/login" 
+                  className="block mt-3 px-6 py-4 rounded-xl font-semibold bg-primary-600 text-white hover:bg-primary-700 transition-colors duration-300 text-center"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  to="/register" 
+                  className="block mt-3 px-6 py-4 rounded-xl font-semibold border border-primary-600 text-primary-600 hover:bg-primary-50 transition-colors duration-300 text-center"
+                >
+                  Sign Up
+                </Link>
               </div>
-              <Link 
-                to="/login" 
-                className="block mt-3 px-6 py-4 rounded-xl font-semibold bg-primary-600 text-white hover:bg-primary-700 transition-all duration-300 text-center"
-              >
-                Sign In
-              </Link>
-            </div>
+            )}
           </nav>
         </div>
 
