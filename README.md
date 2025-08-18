@@ -140,4 +140,4 @@ For support, email info@engiconnect.com or create an issue in the repository.
 
 ---
 
-Made with ❤️ by the EngiConnect Team
+
