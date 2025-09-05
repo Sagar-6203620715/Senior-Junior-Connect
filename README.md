@@ -2,7 +2,7 @@
 
 A modern React application for connecting senior and junior engineering students across India's top colleges. This platform facilitates mentorship, guidance, and meaningful connections between students.
 
-## 🚀 Feature
+## 🚀 Features
 - **College Directory**: Browse through hundreds of engineering colleges with detailed information
 - **Student Connections**: Connect with senior students for guidance and mentorship
 - **Real-time Chat**: Interactive chat system for student communication
